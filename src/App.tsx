@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import { Header } from './components';
+import { checkMetamaskInstalled } from './helpers';
+import { HomePage, ParticipantsDetailsPage } from './pages';
 
-function App() {
+const App = () => {
+
+    useEffect(() => {
+      const isMetamaskInstalled = checkMetamaskInstalled()
+      if (!isMetamaskInstalled){
+        alert('Внимание! Вам нужно установить расширение Metamask для браузера')
+      }
+    }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='container mx-auto'>
+      <Header className='mt-5'/>
+      <div>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='participants/:address' element={<ParticipantsDetailsPage />} />
+        </Routes>
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
